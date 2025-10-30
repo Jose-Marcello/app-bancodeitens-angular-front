@@ -1,5 +1,5 @@
 # .github/workflows/azure-static-web-apps-[ID].yml
-name: Azure Static Web Apps CI/CD
+name: Azure Static Web Apps CI/CD 
 
 on:
   push:
@@ -60,3 +60,4 @@ jobs:
           # github_id_token: ${{ steps.idtoken.outputs.result }}
           
 # (Removido close_pull_request_job para simplificar e focar na solução)
+
