@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:5001/api', // Endereço do seu Back-end local
+  // Use a URL pública do Azure (ACA), seguida da base da sua API 
+  apiUrl: 'https://orange-mud-08279831e.3.azurestaticapps.net',
 };
