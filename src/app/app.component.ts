@@ -8,7 +8,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
 
 // IMPORTAÇÃO CORRETA DO ENVIRONMENT (o Angular CLI escolhe o arquivo certo)
-import { environment } from '../environments/environment.development';
+import { environment } from '../environments/environment';
 
 // --- Interface do Modelo de Dados (MMV) ---
 interface Questao {
