@@ -1,4 +1,4 @@
-# Arquivo: .github/workflows/azure-static-web-apps-[ID].yml
+# Arquivo: .github/workflows/deploy.yml (Frontend - Angular)
 name: Azure Static Web Apps CI/CD
 
 on:
@@ -9,6 +9,7 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
+  workflow_dispatch: # Permite acionamento manual se necessário
 
 jobs:
   build_and_deploy_job:
@@ -16,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     
-    # PERMISSÕES OBRIGATÓRIAS PARA SWA
+    # Permissões necessárias para o CI/CD
     permissions:
       contents: read
-      id-token: write # Necessário para integração OIDC
+      id-token: write
 
     steps:
       # 1. Checkout do Código
@@ -28,47 +29,32 @@ jobs:
           submodules: true
           lfs: false
 
-      # 2. Configuração do Node (Melhor Prática)
+      # 2. Configuração do Node (Versão estável)
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '20' # Versão estável
+          node-version: '20'
 
       # 3. Instalação de Dependências
       - name: Install Dependencies
         run: npm install
 
-      # 4. PASSO CRÍTICO: Executa o build de produção (com substituição de ambiente)
+      # 4. PASSO CRÍTICO: Executa o build de produção (faz a substituição do ambiente)
       - name: Run Angular Production Build
-        # Este comando força a substituição do environment.ts com a URL corrigida
         run: npm run build -- --configuration=production
 
-      # 5. CÓPIA FINAL: Copia o arquivo de roteamento para a pasta de build
-      # O SWA CLI precisa do staticwebapp.config.json para funcionar.
-      # Removido o cp, pois o arquivo deve estar na raiz.
-
-      # 6. Deploy para o Azure Static Web Apps
+      # 5. Deploy para o Azure Static Web Apps
       - name: Deploy to Azure Static Web Apps
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          # TOKEN DEPLOYMENT (É A ÚNICA CHAVE NECESSÁRIA PARA O DEPLOY)
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_<GENERATED_HOSTNAME> }} 
-          repo_token: ${{ secrets.GITHUB_TOKEN }} # Usado para o pull/push
+          # TOKEN DEPLOYMENT (A CHAVE CORRIGIDA)
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ZEALOUS_MUSHROOM_016B6421E }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           
           # Configurações de Caminho FINALMENTE CORRIGIDAS:
-          app_location: "/" # Raiz do código Angular
-          api_location: "" # Nenhuma API no SWA
-          output_location: "dist/banco-de-itens-app/browser" # Onde o ng build colocou o index.html
-          
-  close_pull_request_job:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    name: Close Pull Request Job
-    steps:
-      - name: Close Pull Request
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ZEALOUS_MUSHROOM_016B6421E }}
-          action: "close"
+          app_location: "/" 
+          api_location: "" # Nenhuma API no SWA (está no ACA)
+          # Caminho aninhado que contém o index.html
+          output_location: "dist/banco-de-itens-app/browser"
