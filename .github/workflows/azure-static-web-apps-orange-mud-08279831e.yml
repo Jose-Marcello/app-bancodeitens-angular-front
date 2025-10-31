@@ -1,3 +1,4 @@
+# Arquivo: .github/workflows/deploy.yml (Frontend - Angular)
 name: Azure Static Web Apps CI/CD
 
 on:
@@ -8,70 +9,53 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
+  workflow_dispatch: 
 
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
+    
     permissions:
-        id-token: write
-        contents: read
+      contents: read
+      id-token: write
+
     steps:
+      # 1. Checkout do Código
       - uses: actions/checkout@v3
         with:
           submodules: true
           lfs: false
 
-      # 1. PASSO DE SETUP E BUILD DO ANGULAR
-      - name: Setup Node.js
+      # 2. Configuração do Node (Versão estável)
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '20' # Use a versão do Node compatível com seu Angular
+          node-version: '20'
 
+      # 3. Instalação de Dependências
       - name: Install Dependencies
         run: npm install
 
+      # 4. PASSO CRÍTICO: Executa o build de produção 
       - name: Run Angular Production Build
-        # Substitua 'build:prod' pelo seu script real de build do Angular para produção (ex: npm run build)
-        run: npm run build # Se não tiver :prod, use 'npm run build'
+        run: npm run build -- --configuration=production
 
-      # 2. PASSO CRUCIAL: CÓPIA DO ARQUIVO DE CONFIGURAÇÃO DO SWA
-      - name: Copy SWA Config to Output Directory
-        # Caminho: src/staticwebapp.config.json -> dist/banco-de-itens-app/browser (seu output_location)
-        run: cp src/staticwebapp.config.json dist/banco-de-itens-app/browser/staticwebapp.config.json
-      
-      # O restante do seu workflow permanece o mesmo
-      - name: Install OIDC Client from Core Package
-        run: npm install @actions/core@1.6.0 @actions/http-client
-      - name: Get Id Token
-        uses: actions/github-script@v6
-        id: idtoken
-        with:
-            script: |
-              const coredemo = require('@actions/core')
-              return await coredemo.getIDToken()
-            result-encoding: string
-            
-      # 3. PASSO DE DEPLOY DO SWA
+      # 5. Deploy para o Azure Static Web Apps
       - name: Deploy to Azure Static Web Apps
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ORANGE_MUD_08279831E }}
+          # TOKEN DEPLOYMENT (O nome do seu segredo no GitHub)
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ZEALOUS_MUSHROOM_016B6421E }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "/" # App source code path
-          api_location: "" # Api source code path - optional
-          output_location: "dist/banco-de-itens-app/browser" # Built app content directory - o SWA Action fará o upload desta pasta.
-          github_id_token: ${{ steps.idtoken.outputs.result }}
-
-  close_pull_request_job:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    name: Close Pull Request Job
-    steps:
-      - name: Close Pull Request
-        id: closepullrequest
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          action: "close"
+          
+          # Configurações de Caminho FINALMENTE CORRIGIDAS:
+          app_location: "/" 
+          api_location: "" # <--- Mantém vazio, mas evita a cópia problemática
+          output_location: "dist/banco-de-itens-app/browser" # O caminho aninhado correto
+          
+          # 🛑 CORREÇÃO CRÍTICA FINAL: Força o SWA a ignorar a API (resolve o erro 'cp: cannot stat...')
+          skip_api_build: true
