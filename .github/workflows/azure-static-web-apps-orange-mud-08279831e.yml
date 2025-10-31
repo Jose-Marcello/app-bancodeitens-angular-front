@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
-  workflow_dispatch: # Permite acionamento manual se necessário
+  workflow_dispatch: 
 
 jobs:
   build_and_deploy_job:
@@ -17,7 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     
-    # Permissões necessárias para o CI/CD
     permissions:
       contents: read
       id-token: write
@@ -39,7 +38,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      # 4. PASSO CRÍTICO: Executa o build de produção (faz a substituição do ambiente)
+      # 4. PASSO CRÍTICO: Executa o build de produção 
       - name: Run Angular Production Build
         run: npm run build -- --configuration=production
 
@@ -48,13 +47,15 @@ jobs:
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          # TOKEN DEPLOYMENT (A CHAVE CORRIGIDA)
+          # TOKEN DEPLOYMENT (O nome do seu segredo no GitHub)
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ZEALOUS_MUSHROOM_016B6421E }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           
           # Configurações de Caminho FINALMENTE CORRIGIDAS:
           app_location: "/" 
-          api_location: "" # Nenhuma API no SWA (está no ACA)
-          # Caminho aninhado que contém o index.html
-          output_location: "dist/banco-de-itens-app/browser"
+          api_location: "" # <--- Mantém vazio, mas evita a cópia problemática
+          output_location: "dist/banco-de-itens-app/browser" # O caminho aninhado correto
+          
+          # 🛑 CORREÇÃO CRÍTICA FINAL: Força o SWA a ignorar a API (resolve o erro 'cp: cannot stat...')
+          skip_api_build: true
