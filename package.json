@@ -2,8 +2,7 @@
   "name": "banco-de-itens-app",
   "version": "0.0.0",
   "scripts": {    
-    "build": "ng build --configuration production", 
-    "postbuild": "cp src/staticwebapp.config.json dist/banco-de-itens-app/browser/",
+    "build": "ng build --configuration production",     
     "ng": "ng",
     "start": "ng serve",    
     "watch": "ng build --watch --configuration development",
