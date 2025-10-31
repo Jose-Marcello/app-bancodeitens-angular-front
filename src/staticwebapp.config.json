@@ -2,7 +2,7 @@
   "routes": [
     {
       "route": "/api/*",
-      "rewrite": "https://app-bancodeitens-api.yellowcoast-88ba3e7e.brazilsouth.azurecontainerapps.io/api/{*rest}",
+      "rewrite": "https://app-bancodeitens-api.yellowcoast-88ba3e7e.brazilsouth.azurecontainerapps.io/api/{*}",
       "allowedRoles": ["anonymous"],
       "methods": ["GET", "POST", "PUT", "DELETE"]
     }
