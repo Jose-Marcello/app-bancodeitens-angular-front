@@ -8,6 +8,9 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
+env:
+    # INJETE A VARIÁVEL AQUI
+    API_BASE_URL: ${{ secrets.API_URL }}  # Use o nome correto do Secret/Variable do SWA
 
 jobs:
   build_and_deploy_job:
@@ -56,3 +59,4 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           action: "close"
+
