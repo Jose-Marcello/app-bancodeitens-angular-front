@@ -3,5 +3,5 @@ export const environment = {
   production: true,
  // MUDE PARA A ROTA RELATIVA DO SWA:
   //apiUrl: '/api',
-  apiUrl: 'https://app-bancodeitens-api.politesea-ef0261dc.brazilsouth.azurecontainerapps.io', 
+  apiUrl: 'https://aca-bancodeitens-v3.politesea-ef0261dc.brazilsouth.azurecontainerapps.io', 
 };
