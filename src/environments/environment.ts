@@ -4,4 +4,4 @@ export const environment = {
  // MUDE PARA A ROTA RELATIVA DO SWA:
   //apiUrl: '/api',
   apiUrl: 'https://api-bancodeitens-qa.thankfultree-b9485fed.brazilsouth.azurecontainerapps.io', 
-};
+};   
