@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   // URL CORRIGIDA PARA O ACA (Backend)
-  apiUrl: 'https://app-bancodeitens-api.politesea-ef0261dc.brazilsouth.azurecontainerapps.io/api', 
-};
+  apiUrl: 'https://api-bancodeitens-qa.thankfultree-b9485fed.brazilsouth.azurecontainerapps.io', 
+};   
