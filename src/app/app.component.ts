@@ -17,7 +17,7 @@ interface Questao {
 }
 
 // --- URL da API: Lida do Environment ---
-const API_URL = `${environment.apiUrl}/api/questoes`;
+const API_URL = `${environment.apiUrl}/questoes`;
 
 @Component({
   selector: 'app-root', // Seletor padrão para carregar no index.html
