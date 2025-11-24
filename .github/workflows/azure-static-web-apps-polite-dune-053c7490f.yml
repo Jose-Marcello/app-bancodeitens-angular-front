@@ -1,5 +1,5 @@
 steps:
-  - uses: actions/checkout@v3
+  - uses: actions/checkout@v3 
     with:
       submodules: true
       lfs: false
@@ -8,11 +8,11 @@ steps:
   - name: Setup Node.js
     uses: actions/setup-node@v3
     with:
-      node-version: '20' # Versão estável do Node.js
+      node-version: '20' # Versï¿½o estï¿½vel do Node.js
 
-  # 2. INSTALAÇÃO E BUILD DO FRONTEND ANGULAR
+  # 2. INSTALAï¿½ï¿½O E BUILD DO FRONTEND ANGULAR
   - name: Install Dependencies and Build Angular App
-    # Assume que o package.json do Angular está na raiz do repositório (app_location: "/")
+    # Assume que o package.json do Angular estï¿½ na raiz do repositï¿½rio (app_location: "/")
     run: |
       npm install
       # Executa o build. O --output-path DEVE BATER com o output_location abaixo
@@ -24,14 +24,14 @@ steps:
     uses: Azure/static-web-apps-deploy@v1
     with:
       # TOKEN DEPLOY: Usa o segredo que criamos/validamos no GitHub.
-      # ISSO FINALMENTE DEVE RESOLVER O ERRO DE AUTENTICAÇÃO.
+      # ISSO FINALMENTE DEVE RESOLVER O ERRO DE AUTENTICAï¿½ï¿½O.
       azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BDEITENS_QA }}
       action: "upload"
       
-      # Caminhos de localização do SWA
-      app_location: "/" # Raiz do repositório (onde está o package.json)
+      # Caminhos de localizaï¿½ï¿½o do SWA
+      app_location: "/" # Raiz do repositï¿½rio (onde estï¿½ o package.json)
       api_location: "" # API separada, sem build aqui
-      output_location: "dist/banco-de-itens-app" # Caminho de saída do ng build
+      output_location: "dist/banco-de-itens-app" # Caminho de saï¿½da do ng build
 
 
 close_pull_request_job:
