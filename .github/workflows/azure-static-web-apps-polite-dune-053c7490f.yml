@@ -41,7 +41,7 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           # TOKEN DEPLOY: Usa o segredo que criamos/validamos no GitHub.
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BDEITENS_QA }}
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_POLITE_DUNE_053C7490F }}
           action: "upload"
           
           # Caminhos de localização do SWA
@@ -63,4 +63,4 @@ jobs:
         with:
           action: "close"
           # Usa o mesmo segredo para fechar a URL de staging
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BDEITENS_QA }}
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_POLITE_DUNE_053C7490F }}
