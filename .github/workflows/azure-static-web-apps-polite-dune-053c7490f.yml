@@ -20,34 +20,7 @@ jobs:
         with:
           submodules: true
           lfs: false
-name: Azure Static Web Apps CI/CD
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches: [ main ]
-
-jobs:
-  build_and_deploy_job:
-    if: github.event_name == 'push' || (github.event.action != 'closed')
-    runs-on: ubuntu-latest
-    name: Build and Deploy Job
-    permissions:
-      contents: read
-      
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
-          lfs: false
-
-      # 1. SETUP DO NODE.JS: Garante que o ambiente tenha o Node/NPM para o build do Angular
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20' # Versão estável do Node.js
       # 1. SETUP DO NODE.JS: Garante que o ambiente tenha o Node/NPM para o build do Angular
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -61,27 +34,7 @@ jobs:
           npm install
           # Executa o build. O --output-path DEVE BATER com o output_location abaixo
           npm run build -- --output-path=dist/banco-de-itens-app --configuration=production
-      # 2. INSTALAÇÃO E BUILD DO FRONTEND ANGULAR
-      - name: Install Dependencies and Build Angular App
-        # Assume que o package.json do Angular está na raiz do repositório (app_location: "/")
-        run: |
-          npm install
-          # Executa o build. O --output-path DEVE BATER com o output_location abaixo
-          npm run build -- --output-path=dist/banco-de-itens-app --configuration=production
 
-      # 3. DEPLOY PARA O AZURE STATIC WEB APPS
-      - name: Build And Deploy
-        id: builddeploy
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          # TOKEN DEPLOY: Usa o segredo que criamos/validamos no GitHub.
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BDEITENS_QA }}
-          action: "upload"
-          
-          # Caminhos de localização do SWA
-          app_location: "/" # Raiz do repositório (onde está o package.json)
-          api_location: "" # API separada, sem build aqui
-          output_location: "dist/banco-de-itens-app" # Caminho de saída do ng build
       # 3. DEPLOY PARA O AZURE STATIC WEB APPS
       - name: Build And Deploy
         id: builddeploy
