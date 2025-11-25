@@ -28,8 +28,10 @@ function getApiBaseUrl(): string {
 //const API_BASE = getApiBaseUrl();
 //const API_URL = `${API_BASE}/api/questoes`;
 
-const API_BASE = (process.env as any)['API_URL'] || environment.apiUrl;
-const API_URL = `${API_BASE}/api/questoes`;
+//const API_BASE = (process.env as any)['API_URL'] || environment.apiUrl;
+//const API_URL = `${API_BASE}/api/questoes`;
+
+const API_URL = `${environment.apiUrl}/api/questoes`;
 
 
 // --- Interface do Modelo de Dados (MMV) ---
