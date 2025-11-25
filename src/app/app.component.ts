@@ -11,6 +11,7 @@ import { environment } from '../environments/environment';
 // FUNÇÃO CRÍTICA: LÊ A VARIÁVEL DE AMBIENTE INJETADA PELO RAILWAY
 // Se process.env.API_URL existir (no contêiner Railway), usa ele. 
 // Caso contrário, usa o valor hardcoded do environment.ts (Azure/Local).
+/*
 function getApiBaseUrl(): string {
   // @ts-ignore: Variáveis de ambiente injetadas no contêiner são lidas como process.env no Railway
   const railwayUrl = typeof process !== 'undefined' ? process.env['API_URL'] : undefined;
@@ -21,9 +22,13 @@ function getApiBaseUrl(): string {
   // Garantia: se for o URL base, remove a barra final para anexar o /api/questoes
   return baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
 }
+  */
 
 // --- URL da API: Lida do Environment ---
-const API_BASE = getApiBaseUrl();
+//const API_BASE = getApiBaseUrl();
+//const API_URL = `${API_BASE}/api/questoes`;
+
+const API_BASE = (process.env as any)['API_URL'] || environment.apiUrl;
 const API_URL = `${API_BASE}/api/questoes`;
 
 
