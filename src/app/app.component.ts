@@ -6,7 +6,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
 
 // IMPORTAÇÃO CORRETA DO ENVIRONMENT (o Angular CLI escolhe o arquivo certo)
-import { environment } from '../environments/environment';
+import { environment } from '../environments/environment'; 
 
 // FUNÇÃO CRÍTICA: LÊ A VARIÁVEL DE AMBIENTE INJETADA PELO RAILWAY
 // Se process.env.API_URL existir (no contêiner Railway), usa ele. 
