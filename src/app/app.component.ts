@@ -1,5 +1,3 @@
-// Localização: src/app/app.component.ts
-
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -10,14 +8,30 @@ import { ApplicationConfig } from '@angular/core';
 // IMPORTAÇÃO CORRETA DO ENVIRONMENT (o Angular CLI escolhe o arquivo certo)
 import { environment } from '../environments/environment';
 
+// FUNÇÃO CRÍTICA: LÊ A VARIÁVEL DE AMBIENTE INJETADA PELO RAILWAY
+// Se process.env.API_URL existir (no contêiner Railway), usa ele. 
+// Caso contrário, usa o valor hardcoded do environment.ts (Azure/Local).
+function getApiBaseUrl(): string {
+  // @ts-ignore: Variáveis de ambiente injetadas no contêiner são lidas como process.env no Railway
+  const railwayUrl = typeof process !== 'undefined' ? process.env['API_URL'] : undefined;
+  
+  // Prioriza o URL injetado pelo Railway, depois o environment.apiUrl
+  const baseUrl = railwayUrl || environment.apiUrl;
+
+  // Garantia: se for o URL base, remove a barra final para anexar o /api/questoes
+  return baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+}
+
+// --- URL da API: Lida do Environment ---
+const API_BASE = getApiBaseUrl();
+const API_URL = `${API_BASE}/api/questoes`;
+
+
 // --- Interface do Modelo de Dados (MMV) ---
 interface Questao {
   id: number;
   descricao: string;
 }
-
-// --- URL da API: Lida do Environment ---
-const API_URL = `${environment.apiUrl}/api/questoes`;
 
 @Component({
   selector: 'app-root', // Seletor padrão para carregar no index.html
@@ -29,7 +43,7 @@ const API_URL = `${environment.apiUrl}/api/questoes`;
     <div class="min-h-screen bg-gray-50 p-4">
       <header class="bg-indigo-700 text-white p-6 rounded-t-xl shadow-lg">
         <h1 class="text-3xl font-extrabold">BANCO DE ITENS (MMV)</h1>
-        <p class="text-indigo-200 mt-1">Conexão Back-end C# & Heroku - Status: {{ status() }}</p>
+        <p class="text-indigo-200 mt-1">Conexão Back-end C# & Railway - Status: {{ status() }}</p>
       </header>
 
       <main class="container mx-auto mt-8 space-y-8">
