@@ -1,1 +1,1 @@
-web: npx serve -s dist/banco-de-itens-app -l $PORT
+web: ./node_modules/.bin/serve -s dist/banco-de-itens-app -l $PORT
