@@ -1,1 +1,1 @@
-web: serve -s dist/banco-de-itens-app -l $PORT
+web: npx serve -s dist/banco-de-itens-app -l $PORT
