@@ -1,0 +1,60 @@
+<!-- src/app/disciplinas/cadastro-disciplinas/cadastro-disciplinas.component.html -->
+
+<div class="flex flex-col gap-6">
+  <!-- Cabeçalho e Botão Voltar -->
+  <header class="flex justify-between items-center pb-4 border-b border-gray-200">
+    <!-- Usa a variável do TS para o título (Nova Disciplina / Editar Disciplina) -->
+    <h1 class="text-3xl font-semibold text-gray-800">{{ pageTitle }}</h1> 
+    <button mat-flat-button (click)="voltar()">
+      <mat-icon>arrow_back</mat-icon>
+      Voltar para Lista
+    </button>
+  </header>
+
+  <!-- Indicador de Carregamento para o modo Edição (Carregando dados) -->
+  <div *ngIf="isLoading() && isEditMode" class="text-center p-6 text-gray-500">
+    <span class="animate-spin text-4xl">⚙️</span>
+    <p class="mt-2">Carregando dados para edição...</p>
+  </div>
+  
+  <!-- 💥 INÍCIO DA ESTRUTURA DO FORMULÁRIO COMPLETO -->
+  <mat-card class="shadow-lg" *ngIf="!isLoading() || !isEditMode">
+    <mat-card-content class="p-4">
+      
+      <!-- 🟢 1. TAG DO FORMULÁRIO COM O FORM GROUP -->
+      <form [formGroup]="disciplinaForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+
+        <!-- 🟢 2. CAMPO NOME (OBRIGATÓRIO) -->
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Nome da Disciplina</mat-label>
+          <input matInput formControlName="nome" placeholder="Ex: Matemática">
+          <mat-icon matSuffix>book</mat-icon>
+          <!-- Mensagens de Validação -->
+          <mat-error *ngIf="disciplinaForm.get('nome')?.hasError('required')">
+            O nome da disciplina é **obrigatório**.
+          </mat-error>
+          <mat-error *ngIf="disciplinaForm.get('nome')?.hasError('minlength')">
+            O nome deve ter no mínimo 3 caracteres.
+          </mat-error>
+        </mat-form-field>
+      
+
+        <!-- 🟢 5. RODAPÉ E BOTÃO (O código que você me enviou) -->
+        <div class="flex justify-end pt-4 border-t border-gray-100 mt-4">
+          <button 
+            mat-flat-button 
+            color="primary" 
+            type="submit" 
+            [disabled]="disciplinaForm.invalid || isLoading()"
+            class="min-w-32"
+          >
+            <span *ngIf="isLoading()" class="animate-spin mr-2">⚙️</span>
+            {{ isLoading() ? 'Salvando...' : (isEditMode ? 'Salvar Alterações' : 'Criar Disciplina') }}
+          </button>
+        </div>
+
+      </form>
+
+    </mat-card-content>
+  </mat-card>
+</div>

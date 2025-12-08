@@ -1,0 +1,61 @@
+<div class="flex flex-col gap-6">
+  <header class="flex justify-between items-center pb-4 border-b border-gray-200">
+    <h1 class="text-3xl font-semibold text-gray-800">Gerenciamento de Disciplinas</h1>
+    <button mat-flat-button color="primary" (click)="adicionarDisciplina()">
+      <mat-icon>add</mat-icon>
+      Nova Disciplina
+    </button>
+  </header>
+
+  <mat-card class="shadow-lg">
+    <mat-card-content class="p-4">
+      
+      <div *ngIf="errorMessage()" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
+        <p class="font-bold">Erro de Conexão com a API</p>
+        <p>{{ errorMessage() }}</p>
+        <button mat-button color="primary" (click)="carregarDisciplinas()" class="mt-2 text-sm font-semibold">
+          <mat-icon>refresh</mat-icon> Tentar Carregar Novamente
+        </button>
+      </div>
+
+      <div *ngIf="isLoading()" class="text-center p-8 text-gray-500">
+        <span class="animate-spin text-4xl">⚙️</span>
+        <p class="mt-2">Carregando dados do Backend C#...</p>
+      </div>
+      
+      <div *ngIf="!isLoading()">
+        <table mat-table [dataSource]="disciplinas()" class="w-full">
+                    
+
+          <ng-container matColumnDef="nome">
+            <th mat-header-cell *matHeaderCellDef> Nome </th>
+            <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+          </ng-container>
+         
+
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef> Ações </th>
+              <td mat-cell *matCellDef="let element">
+        
+                 <button mat-icon-button color="accent" (click)="onEditar(element.id)">
+                   <mat-icon>edit</mat-icon>
+                 </button>
+        
+                  <button mat-icon-button color="warn" (click)="excluirDisciplina(element)">
+                     <mat-icon>delete</mat-icon>
+                  </button>
+              </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        
+        <div class="mt-4 text-sm text-gray-500">
+          Total de registros: {{ disciplinas().length }}
+        </div>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>

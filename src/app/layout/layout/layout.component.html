@@ -1,0 +1,16 @@
+<div class="flex h-screen w-full overflow-hidden bg-gray-50">
+    
+    <app-menu></app-menu> 
+    
+    <div class="flex flex-col flex-grow overflow-auto">
+        
+        <div class="flex-shrink-0 sticky top-0 z-50 shadow-lg">
+           <app-header></app-header>
+        </div>
+
+        <div class="p-6 flex-grow overflow-y-auto">
+          <router-outlet></router-outlet> 
+        </div>
+        
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="flex flex-col gap-6">
+
+    <header class="flex justify-between items-center pb-4 border-b border-gray-200">
+      <h1 class="text-3xl font-semibold text-gray-800">{{ pageTitle }}</h1>
+      <button mat-flat-button color="basic" (click)="voltar()" *ngIf="!isEditMode">
+        <mat-icon>arrow_back</mat-icon> Voltar para Lista
+      </button>
+    </header>
+
+    <mat-card class="shadow-lg">
+        <mat-card-content class="p-6">
+
+            <div *ngIf="errorMessage() && !isLoading()" 
+                 class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
+                <p class="font-bold">Erro ao salvar Questão</p>
+                <p>Detalhes: {{ errorMessage() }}</p> 
+            </div>
+            
+            <div *ngIf="isLoading()" class="text-center p-8 text-gray-500">
+                <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+                <p class="mt-2">Processando...</p>
+            </div>
+
+            <form [formGroup]="questaoForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading()" class="flex flex-col gap-5">
+               
+                
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Disciplina</mat-label>
+    
+               <mat-select formControlName="disciplinaId" [compareWith]="compareFn">
+        
+                   <mat-option [value]="null">-- Selecione a Disciplina --</mat-option>
+        
+                   <mat-option *ngFor="let d of disciplinas()" [value]="d.id"> 
+                       {{ d.nome }}
+                   </mat-option>
+    
+               </mat-select>
+
+               <mat-error *ngIf="questaoForm.get('disciplinaId')?.hasError('required')">A disciplina é obrigatória.</mat-error>
+              </mat-form-field>
+               
+               <mat-form-field appearance="outline" class="w-full">
+                 <mat-label>Descrição da Questão</mat-label>
+                    <textarea matInput formControlName="descricao" rows="5" placeholder="Digite o enunciado completo da questão"></textarea>
+    
+                      <mat-error *ngIf="questaoForm.get('descricao')?.hasError('required')">A descrição é obrigatória.</mat-error>
+    
+                      <mat-error *ngIf="questaoForm.get('descricao')?.hasError('minlength')">A descrição deve ter no mínimo 10 caracteres.</mat-error>
+                </mat-form-field>
+
+             <div class="flex justify-end gap-3 mt-4">
+               <button mat-flat-button color="basic" (click)="voltar()" type="button">
+                  <mat-icon>close</mat-icon> Cancelar
+               </button>
+               <button mat-flat-button color="primary" type="submit" [disabled]="questaoForm.invalid || isLoading()">
+                  <mat-icon>{{ isEditMode ? 'save' : 'add' }}</mat-icon> 
+                    {{ isEditMode ? 'Salvar Alterações' : 'Criar Questão' }}
+             </button>
+
+           </div>
+           
+        </form>
+
+        </mat-card-content>
+    </mat-card>
+
+</div>

@@ -1,0 +1,42 @@
+.menu-item {
+    /* Estilos Tailwind para Layout, sobrepondo o MatButton */
+    @apply w-full justify-start text-gray-100; /* ✅ CORREÇÃO: Mais claro */
+    @apply p-3 h-auto rounded-lg; 
+    @apply transition duration-150 ease-in-out;
+    @apply text-base font-normal;
+    display: flex;
+    gap: 12px;
+}
+
+
+.menu-item:hover {
+    @apply bg-gray-800 text-white;
+}
+
+/* Estilo para item ativo: Fundo azul (indigo) para contraste */
+.active-menu-item {
+    @apply bg-indigo-600 text-white font-semibold shadow-lg;
+}
+
+.active-menu-item:hover {
+    @apply bg-indigo-500;
+}
+
+.menu-category {
+    @apply text-xs font-semibold uppercase text-gray-200 ml-1 mt-3 mb-1;
+    padding-top: 8px;
+}
+
+.menu-item-login {
+    @apply w-full justify-start bg-indigo-100 text-white font-medium rounded-lg;
+    @apply hover:bg-indigo-500;
+    @apply p-3 h-auto;
+    display: flex;
+    gap: 12px;
+}
+
+.disabled-link {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
