@@ -47,7 +47,7 @@ jobs:
           # Caminhos de localização do SWA
           app_location: "/" # Raiz do repositório (onde está o package.json)
           api_location: "" # API separada, sem build aqui
-          output_location: "dist/banco-de-itens-app" # Caminho de saída do ng build
+          app_artifact_location: "dist/banco-de-itens-app/browser" # Caminho de saída do ng build
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
